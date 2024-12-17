@@ -28,7 +28,6 @@ def genPakoLink(graphMarkdown: str):
 
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-
 def mm(graph):
     try:
         # Ensure the graph is properly encoded
@@ -104,6 +103,7 @@ The chart should show the present data with a red line
         
         # Extract the Mermaid code from the response
         mermaid_code = response.text.strip()
+        # mermaid_code = apply_color_coding(mermaid_code)
         
         return mermaid_code
     
@@ -111,20 +111,17 @@ The chart should show the present data with a red line
         st.error(f"Gemini API Error: {e}")
         return None
 
-st.title("Project Status to Mermaid Chart")
 
+
+image = Image.open("forgoodlogo.png")  # Replace with your logo path
+st.sidebar.image(image, width=100)  # Adjust width as needed
+
+# Rest of your sidebar content
+st.sidebar.title("text2gantt")
+# ... other sidebar elements
 project_status = st.text_area("Enter your project status description:")
 
-if st.button("Generate Chart"):
-    if project_status:
-        mermaid_code = generate_mermaid_from_gemini(project_status)
-        if mermaid_code:
-            st.code(mermaid_code, language="mermaid") # Display the code
-            mm(mermaid_code)
-    else:
-        st.warning("Please enter a project status description.")
-
-if st.button("Generate link"):
+if st.button("Generate chart"):
     mermaid_code = generate_mermaid_from_gemini(project_status)
     if mermaid_code:
         mermaid_link = genPakoLink(mermaid_code)
