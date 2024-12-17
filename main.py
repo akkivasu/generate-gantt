@@ -25,7 +25,8 @@ def genPakoLink(graphMarkdown: str):
     return link
 
 # Gemini API Key - Replace with your actual key
-genai.configure(api_key="AIzaSyC7zYaKkowJOivz8P2-rv5woJCkDkclczM")
+
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 
 def mm(graph):
